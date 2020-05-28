@@ -20,6 +20,8 @@ import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.cmr.tagging.TaggingService;
+import org.alfresco.service.namespace.NamespaceService;
+import org.alfresco.service.namespace.QName;
 import org.alfresco.service.namespace.RegexQNamePattern;
 import org.alfresco.service.transaction.TransactionService;
 import org.json.JSONArray;
@@ -47,6 +49,7 @@ public class DataListWebScript extends AbstractWebScript {
     private TransactionService transactionService;
     private TaggingService taggingService;
     private Boolean dataListOrdered;
+    private DatalistModel datalistModel;
 
     @Override
     public void execute(WebScriptRequest request, WebScriptResponse response) throws IOException {
@@ -122,16 +125,16 @@ public class DataListWebScript extends AbstractWebScript {
     
                                 for (ChildAssociationRef item : itemsNodes) {
     
-                                    if (nodeService.getType(item.getChildRef()).isMatch(DatalistModel.DATALIST_MODEL_ITEM_TYPE)) {
+                                    if (nodeService.getType(item.getChildRef()).isMatch(datalistModel.getDataListType())) {
                                         // Previous behaviour, include values as they were introduced in Alfresco
                                         if (!dataListOrdered) {
                                             JSONObject obj = new JSONObject();
-                                            obj.put(JSON_CODE, nodeService.getProperty(item.getChildRef(), DatalistModel.DATALIST_MODEL_CODE_PROPERTY).toString());
-                                            obj.put(JSON_VALUE, nodeService.getProperty(item.getChildRef(), DatalistModel.DATALIST_MODEL_VALUE_PROPERTY).toString());
+                                            obj.put(JSON_CODE, nodeService.getProperty(item.getChildRef(), datalistModel.getCodePropToUse()).toString());
+                                            obj.put(JSON_VALUE, nodeService.getProperty(item.getChildRef(), datalistModel.getValuePropToUse()).toString());
                                             objProcess.put(obj);
                                         } else {
-                                            values.put(nodeService.getProperty(item.getChildRef(), DatalistModel.DATALIST_MODEL_CODE_PROPERTY).toString(),
-                                                    nodeService.getProperty(item.getChildRef(), DatalistModel.DATALIST_MODEL_VALUE_PROPERTY).toString());
+                                            values.put(nodeService.getProperty(item.getChildRef(), datalistModel.getCodePropToUse()).toString(),
+                                                    nodeService.getProperty(item.getChildRef(), datalistModel.getValuePropToUse()).toString());
                                         }
                                     } else {
                                         // Ignore other datalist types
@@ -240,6 +243,10 @@ public class DataListWebScript extends AbstractWebScript {
 
         return sites;
 
+    }
+
+    public void setDatalistModel(DatalistModel datalistModel) {
+        this.datalistModel = datalistModel;
     }
 
     public void setNodeService(NodeService nodeService) {

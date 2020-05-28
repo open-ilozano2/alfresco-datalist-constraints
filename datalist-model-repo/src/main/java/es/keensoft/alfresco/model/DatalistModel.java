@@ -3,12 +3,31 @@ package es.keensoft.alfresco.model;
 import org.alfresco.service.namespace.QName;
 
 public class DatalistModel {
-	
-	public static final String DATALIST_MODEL_URI = "http://www.alfresco.com/model/datalistmodel/1.0";
-	public static final QName DATALIST_MODEL_CODE_PROPERTY = QName.createQName(DATALIST_MODEL_URI, "code");
-	public static final QName DATALIST_MODEL_VALUE_PROPERTY = QName.createQName(DATALIST_MODEL_URI, "value");
-	public static final QName DATALIST_MODEL_ITEM_TYPE = QName.createQName(DATALIST_MODEL_URI, "optionList");
-	
+
+	private String nameSpaceUri;
+	private String dataListType;
+	private String codePropToUse;
+	private String valuePropToUse;
+
+	public DatalistModel(String nameSpaceUri, String dataListType, String codePropToUse, String valuePropToUse) {
+		this.nameSpaceUri = nameSpaceUri;
+		this.dataListType = dataListType;
+		this.codePropToUse = codePropToUse;
+		this.valuePropToUse = valuePropToUse;
+	}
+
+	public QName getCodePropToUse() {
+		return QName.createQName(nameSpaceUri, codePropToUse);
+	}
+
+	public QName getDataListType() {
+		return QName.createQName(nameSpaceUri, dataListType);
+	}
+
+	public QName getValuePropToUse() {
+		return QName.createQName(nameSpaceUri, valuePropToUse);
+	}
+
 	public enum DataListStatus {
 	    ADD, REPLACE, NONE
 	}

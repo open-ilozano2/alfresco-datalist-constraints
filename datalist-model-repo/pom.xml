@@ -100,4 +100,11 @@
             </dependencies>
         </profile> -->
     </profiles>
+    <repositories>
+        <repository>
+            <name>Spring Libs Milestone</name>
+            <id>spring-libs</id>
+            <url>https://repo.spring.io/libs-milestone</url>
+        </repository>
+    </repositories>
 </project>

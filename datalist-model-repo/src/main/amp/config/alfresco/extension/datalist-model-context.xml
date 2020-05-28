@@ -24,6 +24,13 @@
 	      <property name="transactionService" ref="TransactionService" />
 	      <property name="taggingService" ref="TaggingService" />
 	      <property name="dataListOrdered" value="${datalist.show.ordered}" />
+		<property name="datalistModel" ref="es.keensoft.datalist.datamodel" />
     </bean>
-    
+
+	<bean id="es.keensoft.datalist.datamodel" class="es.keensoft.alfresco.model.DatalistModel">
+		<constructor-arg value="${datalist.model.uri}"/>
+		<constructor-arg value="${datalist.model.datalist.type}"/>
+		<constructor-arg value="${datalist.model.datalist.properties.code}"/>
+		<constructor-arg value="${datalist.model.datalist.properties.value}"/>
+	</bean>
 </beans>
