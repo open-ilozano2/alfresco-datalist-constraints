@@ -58,7 +58,7 @@
                <#if field.control.params.size??>size="${field.control.params.size}"</#if> 
                <#if field.control.params.styleClass??>class="${field.control.params.styleClass}"</#if>
                <#if field.control.params.style??>style="${field.control.params.style}"</#if>
-               <#if field.disabled  && !(field.control.params.forceEditable?? && field.control.params.forceEditable == "true")>disabled="true"</#if>>
+               <#if field.control.params.readOnly?? || field.disabled  && !(field.control.params.forceEditable?? && field.control.params.forceEditable == "true")>disabled="true"</#if>>
          </select>
    </#if>
 </div>
